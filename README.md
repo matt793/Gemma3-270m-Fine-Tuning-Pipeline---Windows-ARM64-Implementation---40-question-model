@@ -358,48 +358,48 @@ Windows ARM64 Local Training Implementation
 
 The `fine-tuned-40-CodeTrainedQuestions.gguf` model is specifically trained on these 40 prompts. Use these exact prompts to test the model's capabilities:
 
-| Language | Prompt | Difficulty | Tags |
-|----------|--------|------------|------|
-| Python | Write a function `is_prime(n: int) -> bool` that returns True if n is prime. Handle n<=1. Add 3 quick doctests. | Easy | algorithms, doctest |
-| Python | Implement `two_sum(nums, target)` returning indices i,j (i<j) whose values sum to target or (-1,-1) if none. | Easy | hashmap |
-| Python | Given a nested list like [1,[2,3],[4,[5]]], implement `flatten(iterable)` that yields items depth-first. | Medium | generators |
-| Python | Bugfix. The function should return a stable unique list preserving first occurrence order. | Easy | bugfix |
-| Python | Write `roman_to_int(s: str) -> int` for I,V,X,L,C,D,M up to 3999. Brief explanation only. | Medium | parsing |
-| Python | Add pytest tests for the function `is_anagram(a,b)` that returns True if two strings are anagrams ignoring case and spaces. Write 6 tests covering edge cases. | Easy | testing, pytest |
-| JavaScript | Implement a `debounce(fn, delay)` returning a function that delays invocation until inactivity. | Easy | patterns |
-| TypeScript | Implement a typed `EventEmitter<T extends Record<string, any[]>>`. Methods: on, off, emit. | Medium | events |
-| PowerShell | Write `Get-TopCpuProcess -Top 5` that lists the top N processes by CPU with Name, Id, CPU. | Easy | admin |
-| PowerShell | Bugfix. This should restart a service with retries (make it robust: stop if running, start, retry up to 3 times with 2s delay). | Medium | reliability |
-| Power Fx | Show the user photo for the current user in an Image control. Keep it simple. | Easy | powerapps |
-| Power Fx | Filter a People directory gallery by a TextInput 'txtSearch'. If blank, show top 999. Otherwise search by query. | Easy | office365users, filter |
-| SQL | Given table `orders(order_id, customer_id, amount, created_at)`, return each customer's latest order row. | Medium | window-functions |
-| Python | Code review: The function below parses CSV lines but fails on quoted commas. Suggest a safer approach and provide a corrected Python implementation using the stdlib. | Easy | code-review |
-| Python | TDD: Write pytest tests first for a new function `slugify(text: str) -> str` that lowercases, replaces non-alphanumerics with '-', squeezes repeats, and strips leading/trailing '-'. Provide 6 tests. | Medium | tdd, tests |
-| Python | FIM: Complete the missing middle to implement a Python median. | Easy | fim |
-| JavaScript | JavaScript bugfix: The `once` helper should call the function at most once. Fix it and add a small test snippet. | Easy | bugfix, testing |
-| SQL | A slow query filters `WHERE email LIKE '%@example.com'`. Suggest an index strategy and rewrite (PostgreSQL). | Medium | postgres, indexing |
-| Git | Provide commands to create a new branch `feature/lora-finetune`, commit all changes with message 'WIP: LoRA config', and push to origin. | Easy | cli |
-| Python | Implement `safe_join(base: str, *paths: str) -> str` that prevents path traversal. Raise ValueError on escape. | Medium | security |
-| Power Fx | In a Gallery of SharePoint list 'Tickets', show only items where Status = 'Open' and the text box 'txtAssignee' appears in the 'AssignedTo.DisplayName'. | Easy | filter |
-| JavaScript | Implement a `throttle(fn, interval)` that invokes at most once per interval (trailing edge only). | Medium | patterns |
-| Python | Implement async `fetch_urls(urls: List[str]) -> List[str]` that fetches URLs concurrently with aiohttp. Handle errors gracefully. | Medium | async, aiohttp |
-| Python | Write a context manager `timer()` that prints elapsed time when exiting. Use it to time a sleep(2). | Easy | context-manager |
-| Python | Implement `validate_email(email: str) -> bool` using regex. Allow common formats but reject obviously invalid ones. | Easy | regex, validation |
-| Python | Create a `retry(max_attempts=3, delay=1)` decorator that retries on exceptions. Show usage on a flaky function. | Medium | decorator, error-handling |
-| Python | Implement a simple LRU cache `LRUCache(capacity)` with get/put methods using OrderedDict. | Medium | data-structures, lru |
-| Python | Write a pandas function `analyze_sales(df)` that returns total sales by category and month. Assume columns: 'date', 'category', 'amount'. | Medium | pandas, data-analysis |
-| TypeScript | Create a `useLocalStorage<T>(key, initialValue)` React hook that syncs state with localStorage. | Medium | react, hooks |
-| JavaScript | Implement Promise-based `sleep(ms)` function and use it in an async function that retries with exponential backoff. | Medium | async, patterns |
-| PowerShell | Write `Backup-Files -Source C:\\Data -Destination D:\\Backup -ExcludePatterns @('*.tmp', 'logs')` with progress and error handling. | Medium | backup, robocopy |
-| SQL | Write a query to find the second highest salary from `employees(id, name, salary, department_id)` table. | Easy | ranking, window-functions |
-| Python | Implement `binary_search(arr: List[int], target: int) -> int` returning index or -1. Include a simple test. | Easy | algorithms, binary-search |
-| JavaScript | Create a `deepClone(obj)` function that handles nested objects, arrays, dates, and circular references. | Hard | deep-clone, algorithms |
-| Python | Write `hash_password(password: str) -> str` and `verify_password(password: str, hashed: str) -> bool` using bcrypt. | Easy | security, bcrypt |
-| PowerShell | Create `Test-PortConnectivity -ComputerName server01 -Port 443 -Timeout 5` that tests TCP connectivity. | Medium | networking, connectivity |
-| SQL | Create a CTE to find customers who made orders in consecutive months. Table: `orders(customer_id, order_date)`. | Hard | cte, window-functions |
-| Git | Show commands to squash the last 3 commits into one with a new message 'feat: implement user authentication'. | Easy | rebase, squash |
-| TypeScript | Create a generic `Result<T, E>` type for error handling without exceptions. Include helper functions. | Medium | error-handling, generics |
-| Power Fx | Create a formula for a Gallery that shows items from SharePoint list 'Tasks' filtered by current user and sorted by priority (High, Medium, Low). | Medium | sharepoint, sorting |
+| Language | Prompt | Difficulty | Tags | Expected Answer |
+|----------|--------|------------|------|----------------|
+| Python | Write a function `is_prime(n: int) -> bool` that returns True if n is prime. Handle n<=1. Add 3 quick doctests. | Easy | algorithms, doctest | Trial division up to sqrt(n) with 6k±1 optimization, includes doctests |
+| Python | Implement `two_sum(nums, target)` returning indices i,j (i<j) whose values sum to target or (-1,-1) if none. | Easy | hashmap | Single pass with hash map storing value→index |
+| Python | Given a nested list like [1,[2,3],[4,[5]]], implement `flatten(iterable)` that yields items depth-first. | Medium | generators | Recursive generator using `collections.abc.Iterable`, excludes str/bytes |
+| Python | Bugfix. The function should return a stable unique list preserving first occurrence order. | Easy | bugfix | Use seen set + list append instead of `set()` to preserve order |
+| Python | Write `roman_to_int(s: str) -> int` for I,V,X,L,C,D,M up to 3999. Brief explanation only. | Medium | parsing | Sum values, subtract when smaller numeral precedes larger |
+| Python | Add pytest tests for the function `is_anagram(a,b)` that returns True if two strings are anagrams ignoring case and spaces. Write 6 tests covering edge cases. | Easy | testing, pytest | 6 pytest functions covering case/space insensitivity, unicode, empty strings |
+| JavaScript | Implement a `debounce(fn, delay)` returning a function that delays invocation until inactivity. | Easy | patterns | Reset timer on each call, invoke on trailing edge with clearTimeout |
+| TypeScript | Implement a typed `EventEmitter<T extends Record<string, any[]>>`. Methods: on, off, emit. | Medium | events | Map event→Set<listener> with generic type inference per event key |
+| PowerShell | Write `Get-TopCpuProcess -Top 5` that lists the top N processes by CPU with Name, Id, CPU. | Easy | admin | `Get-Process | Sort-Object CPU -Descending | Select-Object -First $Top` |
+| PowerShell | Bugfix. This should restart a service with retries (make it robust: stop if running, start, retry up to 3 times with 2s delay). | Medium | reliability | Try/catch loop with service status verification and retry logic |
+| Power Fx | Show the user photo for the current user in an Image control. Keep it simple. | Easy | powerapps | `Office365Users.UserPhotoV2(Office365Users.MyProfileV2().id)` |
+| Power Fx | Filter a People directory gallery by a TextInput 'txtSearch'. If blank, show top 999. Otherwise search by query. | Easy | office365users, filter | Conditional `Office365Users.SearchUser` with blank check |
+| SQL | Given table `orders(order_id, customer_id, amount, created_at)`, return each customer's latest order row. | Medium | window-functions | ROW_NUMBER() OVER (PARTITION BY customer_id ORDER BY created_at DESC) |
+| Python | Code review: The function below parses CSV lines but fails on quoted commas. Suggest a safer approach and provide a corrected Python implementation using the stdlib. | Easy | code-review | Use `csv.reader(StringIO(line))` instead of `line.split(',')` |
+| Python | TDD: Write pytest tests first for a new function `slugify(text: str) -> str` that lowercases, replaces non-alphanumerics with '-', squeezes repeats, and strips leading/trailing '-'. Provide 6 tests. | Medium | tdd, tests | 6 test functions covering spaces, punctuation, unicode, repeats, edges |
+| Python | FIM: Complete the missing middle to implement a Python median. | Easy | fim | Check parity: odd→middle element, even→average of two middle |
+| JavaScript | JavaScript bugfix: The `once` helper should call the function at most once. Fix it and add a small test snippet. | Easy | bugfix, testing | Cache result, only call when not called before + test assertions |
+| SQL | A slow query filters `WHERE email LIKE '%@example.com'`. Suggest an index strategy and rewrite (PostgreSQL). | Medium | postgres, indexing | CREATE INDEX on `lower(email)`, use `lower(email) LIKE '%@example.com'` |
+| Git | Provide commands to create a new branch `feature/lora-finetune`, commit all changes with message 'WIP: LoRA config', and push to origin. | Easy | cli | `git checkout -b`, `git add -A`, `git commit -m`, `git push -u origin` |
+| Python | Implement `safe_join(base: str, *paths: str) -> str` that prevents path traversal. Raise ValueError on escape. | Medium | security | Use `Path.resolve()` and verify final path is within base directory |
+| Power Fx | In a Gallery of SharePoint list 'Tickets', show only items where Status = 'Open' and the text box 'txtAssignee' appears in the 'AssignedTo.DisplayName'. | Easy | filter | `Filter(Tickets, Status = "Open" && txtAssignee.Text in AssignedTo.DisplayName)` |
+| JavaScript | Implement a `throttle(fn, interval)` that invokes at most once per interval (trailing edge only). | Medium | patterns | Track timestamp and timeout, gate calls with interval checking |
+| Python | Implement async `fetch_urls(urls: List[str]) -> List[str]` that fetches URLs concurrently with aiohttp. Handle errors gracefully. | Medium | async, aiohttp | `aiohttp.ClientSession` with `asyncio.gather`, return error strings for failures |
+| Python | Write a context manager `timer()` that prints elapsed time when exiting. Use it to time a sleep(2). | Easy | context-manager | `@contextmanager` with `time.perf_counter()` in try/finally |
+| Python | Implement `validate_email(email: str) -> bool` using regex. Allow common formats but reject obviously invalid ones. | Easy | regex, validation | Basic regex pattern `^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$` |
+| Python | Create a `retry(max_attempts=3, delay=1)` decorator that retries on exceptions. Show usage on a flaky function. | Medium | decorator, error-handling | Decorator with loop, sleep on failure, re-raise final exception |
+| Python | Implement a simple LRU cache `LRUCache(capacity)` with get/put methods using OrderedDict. | Medium | data-structures, lru | `OrderedDict` with `move_to_end()` and `popitem(last=False)` |
+| Python | Write a pandas function `analyze_sales(df)` that returns total sales by category and month. Assume columns: 'date', 'category', 'amount'. | Medium | pandas, data-analysis | Convert date, extract month period, groupby + pivot with fillna(0) |
+| TypeScript | Create a `useLocalStorage<T>(key, initialValue)` React hook that syncs state with localStorage. | Medium | react, hooks | `useState` + `useEffect` with JSON serialization and error handling |
+| JavaScript | Implement Promise-based `sleep(ms)` function and use it in an async function that retries with exponential backoff. | Medium | async, patterns | `setTimeout` Promise + retry loop with `delay *= 2` |
+| PowerShell | Write `Backup-Files -Source C:\\Data -Destination D:\\Backup -ExcludePatterns @('*.tmp', 'logs')` with progress and error handling. | Medium | backup, robocopy | `robocopy` with exclude args, progress tracking, and exit code handling |
+| SQL | Write a query to find the second highest salary from `employees(id, name, salary, department_id)` table. | Easy | ranking, window-functions | `DENSE_RANK() OVER (ORDER BY salary DESC)` with `WHERE rank = 2` |
+| Python | Implement `binary_search(arr: List[int], target: int) -> int` returning index or -1. Include a simple test. | Easy | algorithms, binary-search | Classic left/right pointers with `mid = (left + right) // 2` |
+| JavaScript | Create a `deepClone(obj)` function that handles nested objects, arrays, dates, and circular references. | Hard | deep-clone, algorithms | `WeakMap` for visited objects, handle Date/Array/Object types recursively |
+| Python | Write `hash_password(password: str) -> str` and `verify_password(password: str, hashed: str) -> bool` using bcrypt. | Easy | security, bcrypt | `bcrypt.gensalt()` + `bcrypt.hashpw()` and `bcrypt.checkpw()` |
+| PowerShell | Create `Test-PortConnectivity -ComputerName server01 -Port 443 -Timeout 5` that tests TCP connectivity. | Medium | networking, connectivity | `Test-NetConnection` or `TcpClient.BeginConnect` fallback |
+| SQL | Create a CTE to find customers who made orders in consecutive months. Table: `orders(customer_id, order_date)`. | Hard | cte, window-functions | CTE with `DATE_TRUNC` + `LAG()` to check `prev_month + INTERVAL '1 month'` |
+| Git | Show commands to squash the last 3 commits into one with a new message 'feat: implement user authentication'. | Easy | rebase, squash | `git rebase -i HEAD~3` or `git reset --soft HEAD~3` + new commit |
+| TypeScript | Create a generic `Result<T, E>` type for error handling without exceptions. Include helper functions. | Medium | error-handling, generics | Discriminated union with `Ok/Err` helpers and `isOk/isErr` type guards |
+| Power Fx | Create a formula for a Gallery that shows items from SharePoint list 'Tasks' filtered by current user and sorted by priority (High, Medium, Low). | Medium | sharepoint, sorting | `SortByColumns(Filter(Tasks, AssignedTo.Email = User().Email), "Priority", Switch(...))` |
 
 ### Usage Tips for Testing
 
