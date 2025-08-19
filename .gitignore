@@ -1,0 +1,59 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+
+# Model files (too large for Git)
+*.gguf
+*.safetensors
+fine-tuned-distilgpt2-code/
+
+# Training logs
+*.log
+training_*.log
+evaluation_*.log
+
+# Checkpoints
+artifacts/ft-gemma3-270m-it-code-lora/checkpoint-*/
+
+# llama.cpp repository (external dependency)
+llama.cpp/
+
+# OS
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.sublime-*
+
+# Temporary files
+*.tmp
+*.temp

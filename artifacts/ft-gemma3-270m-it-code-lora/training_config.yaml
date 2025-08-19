@@ -1,0 +1,94 @@
+chat_template: '{% for message in messages %}
+
+  {% if message[''role''] == ''system'' %}
+
+  <|system|>
+
+  {{ message[''content''] }}
+
+  <|end|>
+
+  {% elif message[''role''] == ''user'' %}
+
+  <|user|>
+
+  {{ message[''content''] }}
+
+  <|end|>
+
+  {% elif message[''role''] == ''assistant'' %}
+
+  <|assistant|>
+
+  {{ message[''content''] }}
+
+  <|end|>
+
+  {% endif %}
+
+  {% endfor %}
+
+  '
+data:
+  eval_file: data/eval_split.jsonl
+  train_file: data/train_split.jsonl
+  validation_split: 0.1
+lora:
+  bias: none
+  lora_alpha: 32
+  lora_dropout: 0.05
+  r: 16
+  target_modules:
+  - c_attn
+  - c_proj
+  - c_fc
+  task_type: CAUSAL_LM
+model:
+  base_model_id: distilgpt2
+  torch_dtype: auto
+  trust_remote_code: false
+quantization:
+  bnb_4bit_compute_dtype: bfloat16
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  load_in_4bit: false
+system:
+  auto_find_batch_size: false
+  ddp_find_unused_parameters: false
+  disable_tqdm: false
+  log_level: info
+  report_to: []
+training:
+  adam_beta1: 0.9
+  adam_beta2: 0.95
+  adam_epsilon: 1.0e-08
+  bf16: false
+  data_seed: 42
+  dataloader_drop_last: false
+  dataset_text_field: null
+  device_map: auto
+  eval_accumulation_steps: 1
+  eval_steps: 100
+  evaluation_strategy: steps
+  fp16: false
+  gradient_accumulation_steps: 8
+  gradient_checkpointing: true
+  learning_rate: 0.0001
+  logging_steps: 10
+  logging_strategy: steps
+  lr_scheduler_type: cosine
+  max_grad_norm: 1.0
+  max_seq_length: 2048
+  max_steps: -1
+  num_train_epochs: 3
+  output_dir: ./artifacts/ft-gemma3-270m-it-code-lora
+  overwrite_output_dir: true
+  per_device_eval_batch_size: 1
+  per_device_train_batch_size: 1
+  remove_unused_columns: false
+  save_steps: 500
+  save_strategy: epoch
+  save_total_limit: 3
+  seed: 42
+  warmup_steps: 200
+  weight_decay: 0.01
