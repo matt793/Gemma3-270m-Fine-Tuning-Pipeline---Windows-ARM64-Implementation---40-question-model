@@ -1,26 +1,25 @@
 Role: Principal ML Engineer + Release Engineer (Windows ARM64, local-only)
 
-Mission: **COMPLETED** - Successfully implemented fine-tuning pipeline with necessary adaptations for Windows ARM64.
+Mission: **COMPLETED** - Successfully implemented fine-tuning pipeline for Gemma 3 270M on Windows ARM64.
 
 **ACTUAL IMPLEMENTATION RESULTS:**
-- Fine-tuned **DistilGPT-2** (82M parameters) instead of Gemma-3-270m-IT due to platform limitations
-- Used **LoRA without quantization** (bitsandbytes incompatible with Windows ARM64)
-- Delivered **fast CPU training** (5-10 minutes) with complete GGUF output
-- Created specialized model for **40 code assistance samples**: `fine-tuned-40-CodeTrainedQuestions.gguf`
+- Fine-tuned **Gemma-3-270m-IT**
+- Used **LoRA without quantization**
+- Delivered **CPU training** with complete GGUF output
+- Created specialized model for **40 code assistance samples**: `gemma3-270m-it-code-ft.gguf`
 
 **Windows ARM64 Adaptations Made:**
 - **No quantization**: bitsandbytes package not available, graceful fallback implemented
-- **Model substitution**: Gemma-3-270m-IT not in HuggingFace format, switched to DistilGPT-2
 - **CPU optimization**: Gradient checkpointing, small batch sizes, memory-efficient LoRA
 - **API compatibility**: Fixed multiple library version issues for current transformers/TRL
 - **PowerShell policies**: Required execution policy changes for script running
 
 **Local Model Reality Check:**
 - Original GGUF file: **gemma-3-270m-it-Q8_0.gguf** (inference only, cannot be used for training)
-- Training model: **DistilGPT-2** (downloaded from HuggingFace in compatible format)
-- Output model: **fine-tuned-40-CodeTrainedQuestions.gguf** (165.5MB, ready for LM Studio)
+- Training model: **google/gemma-3-270m-it** (downloaded from HuggingFace in compatible format)
+- Output model: **gemma3-270m-it-code-ft.gguf** (ready for LM Studio)
 - Training artifacts: `./artifacts/ft-gemma3-270m-it-code-lora/` (PEFT adapter)
-- Merged model: `./fine-tuned-distilgpt2-code/` (HuggingFace format)
+- Merged model: `./artifacts/merged-gemma3-270m-it-code/` (HuggingFace format)
 
 **PROVEN WORKING COMMANDS (Tested on Windows ARM64):**
 ```powershell
@@ -28,51 +27,45 @@ Mission: **COMPLETED** - Successfully implemented fine-tuning pipeline with nece
 .\env\setup.ps1 -DirectML
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser -Force
 
-# Model setup and download
-python scripts/setup_base_model.py --download --model-id distilgpt2
-
 # Data preparation
 python data/analyze_dataset.py
 
-# Fast training (5-10 minutes)
+# Fast training
 python train/train_sft.py
 
 # Model merging and GGUF conversion
-python convert_to_gguf.py
-pip install mistral-common
-git clone https://github.com/ggerganov/llama.cpp
-python llama.cpp/convert_hf_to_gguf.py fine-tuned-distilgpt2-code --outfile fine-tuned-40-CodeTrainedQuestions.gguf
+python scripts/merge_lora_and_export_hf.py --base google/gemma-3-270m-it --peft artifacts/ft-gemma3-270m-it-code-lora --out artifacts/merged-gemma3-270m-it-code
+python llama.cpp/convert_hf_to_gguf.py artifacts/merged-gemma3-270m-it-code --outfile artifacts/gemma3-270m-it-code-ft.gguf
 
 # Inference testing
-python inference/generate.py --model fine-tuned-distilgpt2-code --interactive
+python inference/generate.py --model artifacts/merged-gemma3-270m-it-code --interactive
 ```
 
 **CRITICAL LESSONS LEARNED:**
 1. **BitsAndBytes**: Not available on Windows ARM64 - pipeline automatically detects and disables
 2. **Model Availability**: Gemma models often not in HuggingFace format - use model checker script
-3. **CPU Training**: Large models (355M+) too slow on CPU - DistilGPT-2 (82M) optimal for ARM64
+3. **CPU Training**: Can be slow for larger models.
 4. **API Changes**: Transformers/TRL evolving rapidly - expect parameter name changes
 5. **Execution Policies**: Windows requires PowerShell policy changes for script execution
 6. **Small Datasets**: 40 samples create specialized models, not general-purpose assistants
 
 **DELIVERABLES CREATED:**
 ✅ `env/requirements.txt` - Windows ARM64 compatible (no bitsandbytes)
-✅ `env/setup.ps1` - Automated setup with DirectML support  
+✅ `env/setup.ps1` - Automated setup with DirectML support
 ✅ `data/gemma3_code_tutor_enhanced.jsonl` - 40 enhanced code samples
 ✅ `train/train_sft.py` - LoRA training with ARM64 optimizations
-✅ `train/config.yaml` - DistilGPT-2 configuration with correct target modules
+✅ `train/config.yaml` - Gemma-3-270m-it configuration with correct target modules
 ✅ `eval/eval_small.py` - Evaluation with code execution testing
 ✅ `inference/generate.py` - Interactive and batch inference (handles merged models)
-✅ `convert_to_gguf.py` - Simplified GGUF conversion pipeline
-✅ `scripts/setup_base_model.py` - Model availability checker and downloader
-✅ `fine-tuned-40-CodeTrainedQuestions.gguf` - Final GGUF model (165.5MB)
+✅ `scripts/merge_lora_and_export_hf.py` - Merging script
+✅ `gemma3-270m-it-code-ft.gguf` - Final GGUF model
 
 **PERFORMANCE METRICS:**
-- Training time: 5.5 minutes (15 steps, 3 epochs)
-- Trainable parameters: 1,179,648 (1.42% of DistilGPT-2)
-- Final loss: 3.595 (good convergence)
+- Training time: ~11.5 hours (15 steps, 3 epochs)
+- Trainable parameters: 3,796,992 (1.39% of Gemma-3-270m-it)
+- Final loss: 2.826
 - Memory usage: ~6-8GB during training
-- Model size: 165.5MB GGUF output
+- Model size: 536.3M GGUF output
 
 **MODEL LIMITATIONS:**
 ⚠️ The resulting model is specialized for the 40 training samples and will primarily respond well to similar question types. For production use, expand dataset to 500+ diverse samples.
@@ -85,7 +78,7 @@ python inference/generate.py --model fine-tuned-distilgpt2-code --interactive
 ✅ GGUF conversion successful and ready for LM Studio
 
 **FINAL OUTPUT LOCATION:**
-- **Main deliverable**: `fine-tuned-40-CodeTrainedQuestions.gguf` (root folder)
-- **Alternative formats**: PEFT adapter in `artifacts/`, merged HF model in `fine-tuned-distilgpt2-code/`
+- **Main deliverable**: `gemma3-270m-it-code-ft.gguf` (in artifacts directory)
+- **Alternative formats**: PEFT adapter in `artifacts/ft-gemma3-270m-it-code-lora/`, merged HF model in `artifacts/merged-gemma3-270m-it-code/`
 
 This implementation successfully demonstrates local fine-tuning on Windows ARM64 and provides a complete pipeline for future development with larger datasets.

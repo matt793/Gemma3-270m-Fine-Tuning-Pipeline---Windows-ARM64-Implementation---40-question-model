@@ -71,7 +71,7 @@ def load_model_and_tokenizer(model_path: str, device: str = "auto"):
         
         # Extract base model from config if available
         config_path = model_path_obj / "training_config.yaml"
-        base_model_id = "distilgpt2"  # Default fallback
+        base_model_id = "google/gemma-3-270m-it"  # Default fallback
         
         if config_path.exists():
             import yaml

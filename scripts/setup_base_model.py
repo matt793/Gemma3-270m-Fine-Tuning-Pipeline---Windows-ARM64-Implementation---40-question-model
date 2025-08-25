@@ -86,15 +86,10 @@ def suggest_alternatives():
     logging.info("1. Use a different Gemma model that's available in HF format:")
     logging.info("   - google/gemma-2b-it")
     logging.info("   - google/gemma-7b-it")
-    logging.info("   - microsoft/DialoGPT-medium (smaller alternative)")
     
     logging.info("\n2. Convert GGUF to HuggingFace format (advanced):")
     logging.info("   - Use llama.cpp tools to convert back to HF format")
     logging.info("   - This requires additional tools and may be complex")
-    
-    logging.info("\n3. Train on a similar small model:")
-    logging.info("   - microsoft/DialoGPT-small (117M parameters)")
-    logging.info("   - distilgpt2 (82M parameters)")
 
 def main():
     parser = argparse.ArgumentParser(description="Setup base model for fine-tuning")
@@ -123,27 +118,27 @@ def main():
         suggest_alternatives()
         
         # Update config to use an alternative model
-        logging.info("\n🔧 Updating config.yaml to use DialoGPT-medium as fallback...")
-        try:
-            import yaml
-            config_path = Path("train/config.yaml")
+        # logging.info("\n🔧 Updating config.yaml to use DialoGPT-medium as fallback...")
+        # try:
+        #     import yaml
+        #     config_path = Path("train/config.yaml")
             
-            if config_path.exists():
-                with open(config_path) as f:
-                    config = yaml.safe_load(f)
+        #     if config_path.exists():
+        #         with open(config_path) as f:
+        #             config = yaml.safe_load(f)
                 
-                config['model']['base_model_id'] = 'microsoft/DialoGPT-medium'
+        #         config['model']['base_model_id'] = 'microsoft/DialoGPT-medium'
                 
-                with open(config_path, 'w') as f:
-                    yaml.dump(config, f, default_flow_style=False)
+        #         with open(config_path, 'w') as f:
+        #             yaml.dump(config, f, default_flow_style=False)
                 
-                logging.info("✅ Updated config to use microsoft/DialoGPT-medium")
-                logging.info("This is a 355M parameter conversational model that should work well")
-            else:
-                logging.warning("Config file not found")
+        #         logging.info("✅ Updated config to use microsoft/DialoGPT-medium")
+        #         logging.info("This is a 355M parameter conversational model that should work well")
+        #     else:
+        #         logging.warning("Config file not found")
                 
-        except Exception as e:
-            logging.error(f"Failed to update config: {e}")
+        # except Exception as e:
+        #     logging.error(f"Failed to update config: {e}")
         
         return
     

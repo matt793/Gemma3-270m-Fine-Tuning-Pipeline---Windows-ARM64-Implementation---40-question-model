@@ -1,12 +1,12 @@
 {
   "alpha_pattern": {},
   "auto_mapping": null,
-  "base_model_name_or_path": "distilgpt2",
+  "base_model_name_or_path": "google/gemma-3-270m-it",
   "bias": "none",
   "corda_config": null,
   "eva_config": null,
   "exclude_modules": null,
-  "fan_in_fan_out": true,
+  "fan_in_fan_out": false,
   "inference_mode": true,
   "init_lora_weights": true,
   "layer_replication": null,
@@ -25,9 +25,13 @@
   "rank_pattern": {},
   "revision": null,
   "target_modules": [
-    "c_fc",
-    "c_proj",
-    "c_attn"
+    "up_proj",
+    "o_proj",
+    "gate_proj",
+    "q_proj",
+    "k_proj",
+    "down_proj",
+    "v_proj"
   ],
   "target_parameters": null,
   "task_type": "CAUSAL_LM",

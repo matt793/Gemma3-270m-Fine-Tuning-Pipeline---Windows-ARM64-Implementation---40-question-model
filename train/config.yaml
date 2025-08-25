@@ -31,7 +31,7 @@ chat_template: '{% for message in messages %}
   '
 data:
   eval_file: data/eval_split.jsonl
-  train_file: data/train_split.jsonl
+  train_file: data/gemma3_code_tutor_enhanced.jsonl
   validation_split: 0.1
 lora:
   bias: none
@@ -39,12 +39,16 @@ lora:
   lora_dropout: 0.05
   r: 16
   target_modules:
-  - c_attn
-  - c_proj
-  - c_fc
+  - q_proj
+  - k_proj
+  - v_proj
+  - o_proj
+  - gate_proj
+  - up_proj
+  - down_proj
   task_type: CAUSAL_LM
 model:
-  base_model_id: distilgpt2
+  base_model_id: google/gemma-3-270m-it
   torch_dtype: auto
   trust_remote_code: false
 quantization:

@@ -29,7 +29,7 @@ env/
 # Model files (too large for Git)
 *.gguf
 *.safetensors
-fine-tuned-distilgpt2-code/
+
 
 # Training logs
 *.log

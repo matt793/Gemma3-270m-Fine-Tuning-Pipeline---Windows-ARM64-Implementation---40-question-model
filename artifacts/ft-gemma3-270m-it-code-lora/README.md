@@ -1,9 +1,9 @@
 ---
-base_model: distilgpt2
+base_model: google/gemma-3-270m-it
 library_name: peft
 model_name: ft-gemma3-270m-it-code-lora
 tags:
-- base_model:adapter:distilgpt2
+- base_model:adapter:google/gemma-3-270m-it
 - lora
 - sft
 - transformers
@@ -14,7 +14,7 @@ pipeline_tag: text-generation
 
 # Model Card for ft-gemma3-270m-it-code-lora
 
-This model is a fine-tuned version of [distilgpt2](https://huggingface.co/distilgpt2).
+This model is a fine-tuned version of [google/gemma-3-270m-it](https://huggingface.co/google/gemma-3-270m-it).
 It has been trained using [TRL](https://github.com/huggingface/trl).
 
 ## Quick start
